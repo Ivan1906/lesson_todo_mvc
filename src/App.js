@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, {Component} from 'react';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
-import { AddTodo } from './comonents/AddTodo';
-import { NavBar } from './comonents/NavBar';
-import { ListTodos } from './comonents/ListTodos';
+import {AddTodo} from './comonents/AddTodo';
+import {NavBar} from './comonents/NavBar';
+import {ListTodos} from './comonents/ListTodos';
 import './App.css';
 
 export default class App extends Component {
@@ -11,87 +11,94 @@ export default class App extends Component {
     super();
     this.state = {
       todos: [],
-      counter: 1,
+      counter: 1
     };
   }
 
   onKeyDown = event => {
-    let { todos, counter } = this.state;
+    let {todos, counter} = this.state;
     let todo = {
       id: counter,
       text: event.currentTarget.value,
-      type: 'new',
+      type: 'new'
     };
     todos.push(todo);
 
     this.setState(() => ({
       todos: todos,
-      counter: ++counter,
+      counter: ++counter
     }));
   };
 
   onChange = event => {
-    let id = event.currentTarget.parentElement.getAttribute('id');
+    let id = event
+      .currentTarget
+      .parentElement
+      .getAttribute('id');
 
-    let newTodos = this.state.todos.map(todo =>
-      todo.id.toString() === id
+    let newTodos = this
+      .state
+      .todos
+      .map(todo => todo.id.toString() === id
         ? {
-            ...todo,
-            type: todo.type === 'new' ? 'completed' : 'new',
-          }
-        : todo,
-    );
-    this.setState(({ todos }) => ({ todos: newTodos }));
+          ...todo,
+          type: todo.type === 'new'
+            ? 'completed'
+            : 'new'
+        }
+        : todo,);
+    this.setState(({todos}) => ({todos: newTodos}));
   };
 
   onDelete = event => {
-    let id = event.currentTarget.parentElement.getAttribute('id');
+    let id = event
+      .currentTarget
+      .parentElement
+      .getAttribute('id');
 
-    let newTodos = this.state.todos.filter(todo => (todo.id.toString() !== id ? todo : null));
-    this.setState(state => ({ todos: newTodos }));
+    let newTodos = this
+      .state
+      .todos
+      .filter(todo => (todo.id.toString() !== id
+        ? todo
+        : null));
+    this.setState(state => ({todos: newTodos}));
   };
 
   render() {
-    let { todos } = this.state;
+    let {todos} = this.state;
 
     return (
       <Router>
         <div className="wrapper">
           <div className="container">
-            <AddTodo onKeyDown={this.onKeyDown} />
-            <NavBar />
+            <AddTodo onKeyDown={this.onKeyDown}/>
+            <NavBar/>
             <Switch>
               <Route
                 exact
                 path="/"
-                render={() => (
-                  <ListTodos todos={todos} onChange={this.onChange} onDelete={this.onDelete} />
-                )}
-              />
+                render={(props) => (<ListTodos
+                {...props}
+                todos={todos}
+                onChange={this.onChange}
+                onDelete={this.onDelete}/>)}/>
 
               <Route
                 path="/new"
-                render={() => (
-                  <ListTodos
-                    todos={todos}
-                    type="new"
-                    onChange={this.onChange}
-                    onDelete={this.onDelete}
-                  />
-                )}
-              />
+                render={(props) => (<ListTodos
+                {...props}
+                todos={todos}
+                onChange={this.onChange}
+                onDelete={this.onDelete}/>)}/>
 
               <Route
                 path="/completed"
-                render={() => (
-                  <ListTodos
-                    todos={todos}
-                    type="completed"
-                    onChange={this.onChange}
-                    onDelete={this.onDelete}
-                  />
-                )}
-              />
+                render={(props) => (<ListTodos
+                {...props}
+                todos={todos}
+                onChange={this.onChange}
+                onDelete={this.onDelete}/>)}/>
             </Switch>
           </div>
         </div>

@@ -1,28 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ItemTodo from './ItemTodo';
 
-export const ListTodos = ({ todos, type, onChange, onDelete }) => {
-  if (type === 'new') {
-    todos = todos.filter(todo => (todo.type === 'new' ? todo : null));
-  } else if (type === 'completed') {
-    todos = todos.filter(todo => (todo.type === 'completed' ? todo : null));
+export const ListTodos = ({match, todos, onChange, onDelete}) => {
+  if (match.path === '/new') {
+    todos = todos.filter(todo => (todo.type === 'new'
+      ? todo
+      : null));
+  } else if (match.path === '/completed') {
+    todos = todos.filter(todo => (todo.type === 'completed'
+      ? todo
+      : null));
   }
 
   return (
     <React.Fragment>
       {todos.map(todo => {
-        return (
-          <div className="todo" key={todo.id} id={todo.id}>
-            <input
-              type="checkbox"
-              onClick={onChange}
-              defaultChecked={todo.type === 'completed' ? true : false}
-            />
-
-            <span>{todo.text}</span>
-            <button onClick={onDelete}>Delete</button>
-          </div>
-        );
+        return (<ItemTodo key={todo.id} todo={todo} onChange={onChange} onDelete={onDelete}/>);
       })}
     </React.Fragment>
   );
@@ -30,20 +24,20 @@ export const ListTodos = ({ todos, type, onChange, onDelete }) => {
 
 ListTodos.defaultProps = {
   todos: [],
-  type: undefined,
   onChange: () => console.log('Missing parameter onChange!'),
-  onDelete: () => console.log('Missing parameter onDelete!'),
+  onDelete: () => console.log('Missing parameter onDelete!')
 };
 
 ListTodos.propTypes = {
-  todos: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      text: PropTypes.string.isRequired,
-      type: PropTypes.oneOf(['new', 'completed']).isRequired,
-    }),
-  ).isRequired,
-  type: PropTypes.oneOf(['new', 'completed']),
+  todos: PropTypes
+    .arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired,
+    type: PropTypes
+      .oneOf(['new', 'completed'])
+      .isRequired
+  }))
+    .isRequired,
   onChange: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired
 };
