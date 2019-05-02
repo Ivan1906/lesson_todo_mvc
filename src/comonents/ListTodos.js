@@ -40,10 +40,10 @@ ListTodos.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       text: PropTypes.string.isRequired,
-      type: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(undefined)]),
+      type: PropTypes.oneOf(['new', 'completed']).isRequired,
     }),
   ).isRequired,
-  type: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(undefined)]),
+  type: PropTypes.oneOf(['new', 'completed']),
   onChange: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
